@@ -20,19 +20,20 @@ class HomeNewsViewController: UIViewController, NewsDelegate {
         view.backgroundColor  = .tertiarySystemGroupedBackground
         navigationController?.navigationBar.prefersLargeTitles = true
         setContraint()
-        
         viewModel.delegate = self
         viewModel.receiveData()
-        homeView.loadWebView = { [weak self] url in
-            print(url,"the urlt")
-            let safariVc = SFSafariViewController(url: url)
-            self?.navigationController?.present(safariVc, animated: true, completion: nil)
-
-        }
+        presentWebView()
     }
     
 
 
+    func presentWebView() {
+        homeView.loadWebView = { [weak self] url in
+            let safariVc = SFSafariViewController(url: url)
+            self?.navigationController?.present(safariVc, animated: true, completion: nil)
+        }
+    }
+    
     func setContraint() {
         self.view.addSubview(homeView)
         homeView.snp.makeConstraints { make in

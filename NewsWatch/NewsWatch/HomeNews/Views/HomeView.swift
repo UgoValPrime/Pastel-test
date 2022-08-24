@@ -7,7 +7,6 @@
 
 
 import UIKit
-import SafariServices
 import SnapKit
 
 
@@ -90,7 +89,6 @@ extension HomeView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if let data = news?[indexPath.row] {
-            print(data)
             let url = URL(string: data.url ?? String())!
             loadWebView?(url)
         }

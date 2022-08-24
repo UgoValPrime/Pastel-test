@@ -38,6 +38,3 @@ struct Source: Codable {
     let name: String?
 }
 
-struct CoinData: Codable  {
-    let rate: Double
-}
