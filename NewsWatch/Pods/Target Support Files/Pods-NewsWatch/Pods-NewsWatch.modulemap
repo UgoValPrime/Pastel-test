@@ -1,0 +1,6 @@
+framework module Pods_NewsWatch {
+  umbrella header "Pods-NewsWatch-umbrella.h"
+
+  export *
+  module * { export * }
+}
