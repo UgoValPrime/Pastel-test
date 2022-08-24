@@ -41,8 +41,8 @@ class HomeView: UIView {
         }
         
         contentView.addSubview(headerLabel)
-        headerLabel.backgroundColor = UIColor(named: "header")
-        headerLabel.text = "Top news"
+        headerLabel.backgroundColor = UIColor(named: View.headerColor)
+        headerLabel.text = View.headerText
         headerLabel.font = .systemFont(ofSize: 14, weight: .medium)
         headerLabel.textColor  = .label
         headerLabel.textAlignment = .center
@@ -66,9 +66,12 @@ class HomeView: UIView {
         }
     }
     
-    func injectData(_ data: [Article]) {
+    func configure(with data: [Article]) {
         news = data
-        newsTableView.reloadData()
+        DispatchQueue.main.async {
+            self.newsTableView.reloadData()
+        }
+
     }
 }
 

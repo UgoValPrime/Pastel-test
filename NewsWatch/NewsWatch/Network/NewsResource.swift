@@ -23,12 +23,10 @@ struct NewsResource: NewsProtocol {
     }
     
     func getNewsData(completion: @escaping(Result<GetNewsData, UserError>) -> Void){
-        
         guard let url = URL(string: urlString) else {
             completion(.failure(.InvalidURL))
             return
         }
-        
         httpUtility.performDataTask(url: url, resultType: GetNewsData.self) { result in
             switch result {
             case .success(let jsonData):

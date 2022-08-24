@@ -9,36 +9,39 @@ import Foundation
 import Network
 
 protocol NewsDelegate: AnyObject{
-    func receiveData(_ data: GetNewsData?)
+    func didReceiveData(_ data: GetNewsData?)
 }
-class NewsViewModel {
+
+final class NewsViewModel {
+    
     weak var delegate: NewsDelegate?
     let userDefaults  = UserDefaults.standard
-    public lazy var newsResource: NewsProtocol = NewsResource()
+    var newsResource: NewsProtocol?
     let monitor = NWPathMonitor()
     var noNetwork = false
-    var homeView = HomeView()
     
-    
-     
+    init(newsResource: NewsProtocol = NewsResource()) {
+        self.newsResource = newsResource
+    }
     
     func monitorNetwork() {
-        monitor.pathUpdateHandler = { [self] path in
+        monitor.pathUpdateHandler = { [weak self] path in
+            guard let self = self else { return }
             if path.status == .satisfied {
                 self.receiveData()
-                noNetwork = true
+                self.noNetwork = true
             } else {
-                self.homeView.injectData(self.userDefaults.offlineNews?.articles ?? [])
+                self.delegate?.didReceiveData(self.userDefaults.offlineNews)
             }
             print(path.isExpensive)
         }
     }
     
     func receiveData() {
-        newsResource.getNewsData { [weak self] result in
+        newsResource?.getNewsData { [weak self] result in
             switch result {
             case .success(let listOf):
-                self?.delegate?.receiveData(listOf)
+                self?.delegate?.didReceiveData(listOf)
                 self?.userDefaults.offlineNews  = listOf
             case .failure(let error):
                 print("Error processing json data: \(error.localizedDescription)")

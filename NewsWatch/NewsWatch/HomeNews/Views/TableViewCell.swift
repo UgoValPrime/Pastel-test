@@ -54,7 +54,7 @@ class TableViewCell: UITableViewCell,ReuseIdentifying {
         }
         
         
-        newsheader.text = "So that we can test how well this thing aligns and if we nee to make adjustments"
+        newsheader.text = String()
         newsheader.lineBreakMode = .byWordWrapping
         newsheader.numberOfLines = 0
         newsheader.font = .systemFont(ofSize: 16, weight: .bold)
@@ -65,7 +65,7 @@ class TableViewCell: UITableViewCell,ReuseIdentifying {
         }
         
         
-        newsAuthor.text = "Ewele Val-Okenyi"
+        newsAuthor.text = String()
       
         newsAuthor.font = .systemFont(ofSize: 12, weight: .thin)
         newsAuthor.snp.makeConstraints { make in
