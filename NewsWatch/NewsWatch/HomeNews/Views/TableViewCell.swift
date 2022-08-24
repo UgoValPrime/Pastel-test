@@ -17,18 +17,17 @@ extension ReuseIdentifying {
 import UIKit
 import SnapKit
 
+
 class TableViewCell: UITableViewCell,ReuseIdentifying {
 
     fileprivate let newsImageView = UIImageView()
     fileprivate let newsheader = UILabel()
     fileprivate let newsAuthor = UILabel()
     
-    
     // MARK: - INITIALIZERS
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
       super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
-      
     }
     
     required init?(coder: NSCoder) {
@@ -74,23 +73,16 @@ class TableViewCell: UITableViewCell,ReuseIdentifying {
             make.right.equalTo(contentView.snp.right).offset(-25)
             make.bottom.equalTo(newsImageView.snp.bottom).offset(-10)
         }
- 
     }
-    
 
-    
-
-    
     override func awakeFromNib() {
         super.awakeFromNib()
-
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
     }
-
+    
     func recieveData(_ data: Article) {
         newsheader.text = data.title
         newsAuthor.text = data.author

@@ -9,10 +9,14 @@ import UIKit
 import SnapKit
 import SafariServices
 
+
 class HomeNewsViewController: UIViewController, NewsDelegate {
-    
+   
     let homeView  = HomeView()
     let viewModel  = NewsViewModel()
+    let userDefaults = UserDefaults.standard
+    let queue = DispatchQueue(label: "Monitor")
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,12 +25,19 @@ class HomeNewsViewController: UIViewController, NewsDelegate {
         navigationController?.navigationBar.prefersLargeTitles = true
         setContraint()
         viewModel.delegate = self
-        viewModel.receiveData()
+        viewModel.monitorNetwork()
         presentWebView()
+        viewModel.monitor.start(queue: queue)
+        if viewModel.noNetwork == false {
+            homeView.injectData(userDefaults.offlineNews?.articles ?? [])
+        }
     }
     
-
-
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
+    
     func presentWebView() {
         homeView.loadWebView = { [weak self] url in
             let safariVc = SFSafariViewController(url: url)
@@ -45,8 +56,8 @@ class HomeNewsViewController: UIViewController, NewsDelegate {
         }
     }
 
-    func receiveData(_ data: GetNewsData) {
-        homeView.injectData(data.articles)
+    func receiveData(_ data: GetNewsData?) {
+            homeView.injectData(data?.articles ?? [])
     }
     
 }
